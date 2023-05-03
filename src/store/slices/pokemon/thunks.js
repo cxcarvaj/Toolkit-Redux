@@ -15,7 +15,7 @@ export const getPokemons = (page = 0) => {
     );
     dispatch(
       setPokemons({
-        page: page + 1,
+        nextPage: page + 1,
         pokemons: data.results
       })
     );

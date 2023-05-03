@@ -1,21 +1,34 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getPokemons } from './store/slices/pokemon';
 
 const PokemonApp = () => {
   const dispatch = useDispatch();
+  const { isLoading, pokemons, nextPage } = useSelector(
+    (state) => state.pokemons
+  );
+
   useEffect(() => {
     dispatch(getPokemons());
   }, []);
+
   return (
     <>
       <h1>Pokemon App</h1>
       <hr />
+      <span>is Loading... {isLoading ? 'True' : 'False'}</span>
       <ul>
-        <li>1. Bulbasaur</li>
-        <li>2. Ivysaur</li>
-        <li>3. Venusaur</li>
+        {pokemons.map((pokemon) => (
+          <li key={pokemon.name}>{pokemon.name}</li>
+        ))}
       </ul>
+
+      <button
+        disabled={isLoading}
+        onClick={() => dispatch(getPokemons(nextPage))}
+      >
+        Next
+      </button>
     </>
   );
 };
